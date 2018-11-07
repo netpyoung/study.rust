@@ -5,6 +5,7 @@ extern crate sdl2;
 
 // TODO(pyoung): change name.
 
+pub mod shader;
 
 trait HasArea {
     fn area(&self) -> f64;
@@ -42,15 +43,15 @@ impl App {
         println!("start");
 
         let sdl = sdl2::init().unwrap();
-
         let video_subsystem = sdl.video().unwrap();
+
 
         let gl_attr = video_subsystem.gl_attr();
         gl_attr.set_context_profile(sdl2::video::GLProfile::Core);
-        gl_attr.set_context_version(4, 1);
+        gl_attr.set_context_version(4, 5);
 
 
-        let mut builder_window = video_subsystem.window("Game", 300, 300);
+        let mut builder_window = video_subsystem.window("Game", 500, 500);
         let builder_sdl = builder_window
             .position_centered()
             .resizable();
@@ -62,7 +63,7 @@ impl App {
         gl::load_with(|s| video_subsystem.gl_get_proc_address(s) as *const std::os::raw::c_void);
 
         unsafe {
-            gl::Viewport(0, 0, 900, 700); // set viewport
+            gl::Viewport(0, 0, 500, 500); // set viewport
         }
 
         unsafe {
@@ -85,6 +86,7 @@ impl App {
             }
         }
 
+        // EventApp::Quit
         EventApp::Pass
     }
 
@@ -93,6 +95,10 @@ impl App {
         unsafe {
             gl::Clear(gl::COLOR_BUFFER_BIT);
         }
+        self.window.as_mut().unwrap().gl_swap_window();
+    }
+
+    pub fn refresh(&mut self) {
         self.window.as_mut().unwrap().gl_swap_window();
     }
 
