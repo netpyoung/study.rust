@@ -1,3 +1,10 @@
-러스트를 공부해보자.
+# study.rust
 
-http://nercury.github.io/rust/opengl/tutorial/2018/02/08/opengl-in-rust-from-scratch-00-setup.html
+## mdBook
+
+- [저장소](https://github.com/rust-lang/mdBook)
+- [메뉴얼](https://rust-lang.github.io/mdBook/)
+
+``` zsh
+$ mdbook serve
+```
