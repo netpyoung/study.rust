@@ -1,0 +1,12 @@
+[book]
+title = "study.rust"
+description = "study.rust"
+language = "ko"
+src = "src"
+
+[output.html]
+no-section-label = true
+site-url = "/study.rust/"
+git-repository-url = "https://github.com/netpyoung/study.rust"
+git-repository-icon = "fa-github"
+edit-url-template = "https://github.com/netpyoung/study.rust/edit/main/{path}"
