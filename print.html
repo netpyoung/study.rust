@@ -1,0 +1,513 @@
+<!DOCTYPE HTML>
+<html lang="ko" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>study.rust</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        <!-- #region: Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-855BJNV9VD"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-855BJNV9VD');
+        </script>
+        <!-- #endregion: Google tag (gtag.js) -->
+        <meta name="description" content="study.rust">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">study.rust</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.rust" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="들어가며"><a class="header" href="#들어가며">들어가며</a></h1>
+<p>러스트를 공부해보자.</p>
+<ul>
+<li><strong>할당(=)은 소유권을 이전(move)시킨다.</strong>
+<ul>
+<li>함수에 인자 전달도 소유권을 이전</li>
+<li>기본적어으로 할당(=)은 이전이나 Copy 트레이트를 구현하는 타입에 한해서는 복사가 된다.
+<ul>
+<li>근데 Copy는 얕은 복사.</li>
+<li>깊은 복사는 Clone도 같이 구현.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>앰퍼샌드(&amp;)는 빌림(borrow)</strong></li>
+<li>스코프를 지나가면 자동 해제.
+<ul>
+<li>수동 해제는 <code>std::mem::drop</code></li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="설치"><a class="header" href="#설치">설치</a></h1>
+<p>scoop install rustup
+exit</p>
+<p>rustup install stable-x86_64-pc-windows-msvc
+rustup default stable-msvc</p>
+<p>rustup component add rust-src</p>
+<p>rustup toolchain add nightly</p>
+<p>https://visualstudio.microsoft.com/vs/community/</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="trait"><a class="header" href="#trait">trait</a></h1>
+<ul>
+<li>다른 언어에서의 interface라고 보면됨</li>
+</ul>
+<h2 id="자동파생"><a class="header" href="#자동파생">자동파생</a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 내부 필드 x와 y가 전부 i32이고, i32는 이 모든 트레이트를 이미 구현하고 있기 때문에,
+// Point는 자동으로 Debug, Clone, PartialEq, Eq, Hash, Default를 구현
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Default)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="닷넷과-비교"><a class="header" href="#닷넷과-비교">닷넷과 비교</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>닷넷의</th><th>트레이트</th><th></th></tr></thead><tbody>
+<tr><td>ICloneable.Clone()</td><td><code>Clone</code></td><td></td></tr>
+<tr><td>ToString()</td><td><code>Display</code></td><td></td></tr>
+<tr><td>IEquatable<T></td><td><code>Eq</code></td><td><code>PartialEq</code>도 만족해야함</td></tr>
+<tr><td>IComparable<T></td><td><code>Ord</code></td><td><code>Eq</code> + <code>PartialOrd</code> 만족해야 함</td></tr>
+<tr><td>GetHashCode()</td><td><code>Hash</code></td><td></td></tr>
+<tr><td>IEnumerable</td><td><code>Iterator</code> ,<code>IntoIterator</code>, <code>FromIterator</code></td><td></td></tr>
+</tbody></table>
+</div>
+<h2 id="derivedebug"><a class="header" href="#derivedebug">#[derive(Debug)]</a></h2>
+<ul>
+<li>닷넷의 DebuggerDisplay 어트리뷰트와 비슷하지만 닷넷은 디버거 표시에만 나타낼 뿐이고, rust는 출력용.</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>{:?}</td><td>한 줄, 간결한 디버그 표현</td></tr>
+<tr><td>{:#?}</td><td>pretty 출력</td></tr>
+</tbody></table>
+</div>
+<h2 id="toowned"><a class="header" href="#toowned">ToOwned</a></h2>
+<ul>
+<li>빌린 값(&amp;T)의 소유된 owned 복사본을 만든다
+<ul>
+<li>Copy 타입이 아니면, 보통 새로운 소유 데이터를 만들기 때문에 힙 메모리 할당이 발생</li>
+</ul>
+</li>
+</ul>
+<p>let s1: String = "hello".to_owned();</p>
+<pre><code>"hello" (바이너리 상수, &amp;str)
+|
+|
+*  to_owned()
+[ h e l l o \0 ]   &lt;- 힙에 새로 복사됨
+|
+s1: String
+</code></pre>
+<h2 id="기타-trait"><a class="header" href="#기타-trait">기타 Trait</a></h2>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th><th></th><th></th></tr></thead><tbody>
+<tr><td><code>Default</code></td><td>기본값 생성</td><td><code>let v: Vec&lt;i32&gt; = Default::default();</code></td><td>여러 타입에 대해 <code>::default()</code> 제공</td></tr>
+<tr><td><code>Drop</code></td><td>소멸자 (scope 벗어날 때 커스텀 정리)</td><td><code>impl Drop for MyType { fn drop(&amp;mut self) { ... } }</code></td><td>리소스 정리용</td></tr>
+<tr><td><code>AsRef&lt;T&gt;</code></td><td>참조로 변환 (가벼운 뷰)</td><td><code>fn foo&lt;S: AsRef&lt;str&gt;&gt;(s: S)</code></td><td><code>&amp;String</code> → <code>&amp;str</code> 등</td></tr>
+<tr><td><code>AsMut&lt;T&gt;</code></td><td>가변 참조로 변환</td><td>비슷하게 <code>fn bar&lt;S: AsMut&lt;[u8]&gt;&gt;(s: &amp;mut S)</code></td><td></td></tr>
+<tr><td><code>Borrow&lt;T&gt;</code> / <code>BorrowMut&lt;T&gt;</code></td><td>키/뷰로서 빌려쓰기 (컬렉션 내부와 호환)</td><td><code>HashMap&lt;String, V&gt;</code>에 <code>&amp;str</code>로 접근 가능하게 해줌</td><td><code>AsRef</code>와 유사하지만 의미가 다름</td></tr>
+<tr><td><code>Send</code></td><td>스레드 간 안전한 이동 가능</td><td><code>std::thread::spawn</code>의 인자에 필요</td><td>컴파일러가 타입이 <code>Send</code>인지 추론</td></tr>
+<tr><td><code>Sync</code></td><td>여러 스레드에서 동시에 참조 가능</td><td><code>&amp;T</code>가 스레드 안전하면 <code>T: Sync</code></td><td></td></tr>
+<tr><td><code>Sized</code></td><td>컴파일 타임 크기 고정</td><td>대부분 타입에 자동</td><td><code>?Sized</code>로 역전 가능</td></tr>
+<tr><td><code>'static</code> (라이프타임 제한)</td><td>프로그램 전체 생존 가능 참조</td><td><code>let s: &amp;'static str = "hello";</code></td><td>트레이트는 아니지만 제약으로 자주 등장</td></tr>
+</tbody></table>
+</div>
+<h2 id="into-트레잇"><a class="header" href="#into-트레잇">Into<T> 트레잇</a></h2>
+<ul>
+<li>Into<U>는 From<T> for U가 있으면 자동 구현됨</li>
+<li>다른 타입으로 바꾸고 소유권도 넘기는데 쓰임.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="allocator"><a class="header" href="#allocator">allocator</a></h1>
+<ul>
+<li><a href="https://doc.rust-lang.org/std/alloc/trait.Allocator.html">https://doc.rust-lang.org/std/alloc/trait.Allocator.html</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="smart-pointer"><a class="header" href="#smart-pointer">smart pointer</a></h1>
+<div class="table-wrapper"><table><thead><tr><th>종류</th><th>설명</th><th>참조 카운트</th><th>멀티스레드 안전성</th><th>내부 변경 허용 (<code>!mut self</code>)</th><th>주요 용도 / 특성</th></tr></thead><tbody>
+<tr><td><code>Box&lt;T&gt;</code></td><td>힙에 저장된 단일 소유 값</td><td>❌ 없음</td><td>✅ (Send/Sync 조건 시)</td><td>❌ 불가</td><td>트리, 재귀 구조, 큰 데이터</td></tr>
+<tr><td><code>Rc&lt;T&gt;</code></td><td>단일 스레드 내 다중 소유</td><td>✅ 있음</td><td>❌ 불가</td><td>❌ 불가</td><td>불변 공유</td></tr>
+<tr><td><code>Arc&lt;T&gt;</code></td><td>멀티스레드용 다중 소유</td><td>✅ 있음</td><td>✅ 가능 (atomic)</td><td>❌ 불가</td><td>멀티스레드 공유</td></tr>
+<tr><td><code>Weak&lt;T&gt;</code></td><td>Rc 또는 Arc의 약한 참조</td><td>❌ 없음 (참조 카운트 영향 없음)</td><td>✅ (Arc 기준) / ❌ (Rc 기준)</td><td>❌ 불가</td><td>순환 참조 방지, 소유권 미보유</td></tr>
+<tr><td><code>Cell&lt;T&gt;</code></td><td>내부 가변성 (복사 기반)</td><td>❌ 없음</td><td>❌ 불가</td><td>✅ 가능 (값 자체 교체)</td><td><code>Copy</code> 값 변경</td></tr>
+<tr><td><code>RefCell&lt;T&gt;</code></td><td>내부 가변성 (참조 기반)</td><td>❌ 없음</td><td>❌ 불가</td><td>✅ 가능 (런타임 체크)</td><td>가변 참조 빌림</td></tr>
+<tr><td><code>UnsafeCell&lt;T&gt;</code></td><td>내부 가변성의 기반 (unsafe)</td><td>❌ 없음</td><td>❌ 직접 unsafe 처리 필요</td><td>✅ 가능</td><td><code>Cell</code>, <code>RefCell</code>의 기반</td></tr>
+<tr><td><code>Pin&lt;T&gt;</code></td><td>이동 금지 스마트 포인터</td><td>❌ 없음</td><td>✅ 가능</td><td>✅ 가능 (단, 고정 주소 유지)</td><td>async, generator</td></tr>
+<tr><td><code>ManuallyDrop&lt;T&gt;</code></td><td>Drop 호출을 수동 제어</td><td>❌ 없음</td><td>✅ 가능</td><td>✅ 가능</td><td>FFI, union</td></tr>
+<tr><td><code>MaybeUninit&lt;T&gt;</code></td><td>초기화 안 된 값의 안전한 표현</td><td>❌ 없음</td><td>✅ 가능</td><td>✅ 가능</td><td>성능 최적화, FFI</td></tr>
+<tr><td><code>Cow&lt;'a, T&gt;</code></td><td>읽기 위주, 필요 시 복사</td><td>❌ 없음</td><td>✅ 가능 (조건부)</td><td>✅ 가능 (write 시 복사)</td><td>Clone-on-write</td></tr>
+<tr><td><code>Mutex&lt;T&gt;</code></td><td>락 기반 내부 가변성</td><td>✅ 있음 (<code>Arc</code>와 함께 사용)</td><td>✅ 가능</td><td>✅ 가능 (lock 필요)</td><td>멀티스레드 안전 변경</td></tr>
+<tr><td><code>RwLock&lt;T&gt;</code></td><td>읽기/쓰기 락 기반 가변성</td><td>✅ 있음</td><td>✅ 가능</td><td>✅ 가능 (lock 필요)</td><td>읽기 위주 공유</td></tr>
+<tr><td><code>OnceCell&lt;T&gt;</code></td><td>한 번만 초기화 가능</td><td>✅ 있음</td><td>✅ 가능</td><td>⚠️ 초기화 이후 변경 불가</td><td>정적/전역 설정</td></tr>
+<tr><td><code>Lazy&lt;T&gt;</code></td><td>지연 초기화</td><td>✅ 있음</td><td>✅ 가능 (조건부)</td><td>⚠️ 초기화 이후 변경 불가</td><td>설정 지연 실행</td></tr>
+</tbody></table>
+</div>
+<p>Box - std::unique_ptr<T>
+Rc = Reference Counted - std::shared_ptr<T>
+Weak - std::weak_ptr<T>
+Arc = Atomic Reference Counted</p>
+<div style="break-before: page; page-break-before: always;"></div><p>https://github.com/eqrion/cbindgen
+https://github.com/mono/CppSharp
+https://github.com/Dushistov/flapigen-rs</p>
+<p>https://medium.com/@chyyran/calling-c-natively-from-rust-1f92c506289d</p>
+<p>https://github.com/swig/swig/issues/455</p>
+<p>HandleRef 1.0
+SafeHandle 2.0
+https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.handleref?view=net-6.0</p>
+<p>https://devblogs.microsoft.com/dotnet/improvements-in-native-code-interop-in-net-5-0/</p>
+<p>https://dev.to/robertohuertasm/rust-once-and-share-it-with-android-ios-and-flutter-286o</p>
+<p>crate-type = ["staticlib", "cdylib"]</p>
+<p>[target.'cfg(target_os = "android")'.dependencies]
+jni = { version = "0.13.1", default-features = false }</p>
+<p>#[repr(C)]
+struct X {
+}</p>
+<p>#[no_mangle]
+pub unsafe extern "C" fn  fn_test() {
+println!("Hello, world!");
+}</p>
+<h1 id="android-targets"><a class="header" href="#android-targets">Android targets</a></h1>
+<p>rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
+cargo install cargo-ndk</p>
+<h1 id="ios-targets"><a class="header" href="#ios-targets">iOS targets</a></h1>
+<p>rustup target add aarch64-apple-ios armv7-apple-ios armv7s-apple-ios x86_64-apple-ios i386-apple-ios</p>
+<h1 id="install-the-xcode-build-tools"><a class="header" href="#install-the-xcode-build-tools">install the Xcode build tools.</a></h1>
+<p>xcode-select --install</p>
+<h1 id="this-cargo-subcommand-will-help-you-create-a-universal-library-for-use-with-ios"><a class="header" href="#this-cargo-subcommand-will-help-you-create-a-universal-library-for-use-with-ios">this cargo subcommand will help you create a universal library for use with iOS.</a></h1>
+<p>cargo install cargo-lipo</p>
+<h1 id="this-tool-will-let-you-automatically-create-the-cc11-headers-of-the-library"><a class="header" href="#this-tool-will-let-you-automatically-create-the-cc11-headers-of-the-library">this tool will let you automatically create the C/C++11 headers of the library.</a></h1>
+<p>cargo install cbindgen</p>
+<p>cbindgen src/lib.rs -l c &gt; rustylib.h</p>
+<p>cargo lipo --release</p>
+<p>https://github.com/shekohex/flutterust</p>
+<p>jps
+https://github.com/BezPowell/blitz-path/blob/master/src/jps.rs
+https://github.com/samueltardieu/pathfinding</p>
+<p>https://github.com/sidneywang/rsbind</p>
+<p>https://blog.datalust.co/rust-at-datalust-how-we-integrate-rust-with-csharp/</p>
+<p>==========</p>
+<p>https://doc.rust-lang.org/cargo/reference/profiles.html#default-profiles
+https://github.com/johnthagen/min-sized-rust
+[profile.release]
+opt-level = 3
+debug = false
+split-debuginfo = '...'  # Platform-specific.
+debug-assertions = false
+overflow-checks = false
+lto = true             # default: false                 # https://llvm.org/docs/LinkTimeOptimization.html
+panic = 'unwind'
+incremental = false
+codegen-units = 1      # default: 16
+rpath = false</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ref"><a class="header" href="#ref">ref</a></h1>
+<p>책
+Refactoring to Rust by Lily Mara, Joel Holmes
+Rust in Action by Tim McNamara</p>
+<p>https://lborb.github.io/book/official.html</p>
+<p>pngme_book
+https://picklenerd.github.io/pngme_book/
+https://github.com/picklenerd/pngme_book</p>
+<p>Creative Projects for Rust Programmers
+https://www.packtpub.com/product/creative-projects-for-rust-programmers/9781789346220
+https://github.com/packtpublishing/creative-projects-for-rust-programmers</p>
+<p>A Guide to Porting C/C++ to Rust
+https://locka99.gitbooks.io/a-guide-to-porting-c-to-rust/
+https://github.com/locka99/cpp-to-rust-book</p>
+<p>Zero To Production In Rust
+https://www.zero2prod.com/</p>
+<p>Learning Rust With Entirely Too Many Linked Lists
+https://rust-unofficial.github.io/too-many-lists/first.html</p>
+<p>Roguelike Tutorial - In Rust
+https://bfnightly.bracketproductions.com/</p>
+<p>https://rftgu.rs/</p>
+<h2 id="library"><a class="header" href="#library">library</a></h2>
+<p>https://github.com/dtolnay/anyhow</p>
+<p>https://rust-cli.github.io/book/crates/index.html</p>
+<p>https://rust-lang.github.io/rust-bindgen/</p>
+<p>http://nercury.github.io/rust/opengl/tutorial/2018/02/08/opengl-in-rust-from-scratch-00-setup.html</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="opengl"><a class="header" href="#opengl">OpenGL</a></h1>
+<p>gl = "0.10.0"</p>
+<pre><code>let builder_sdl = builder_window
+    .position_centered()
+    .resizable();
+let builder_opengl = builder_sdl.opengl();
+let window = builder_opengl.build().unwrap();
+
+
+// gl-init
+let _gl_context = window.gl_create_context().unwrap();
+let _gl = gl::load_with(|s| video_subsystem.gl_get_proc_address(s) as *const std::os::raw::c_void);
+unsafe {
+    gl::ClearColor(0.3, 0.3, 0.5, 1.0);
+}
+
+
+window.gl_swap_window();
+</code></pre>
+<h1 id="shader"><a class="header" href="#shader">shader</a></h1>
+<pre><code>let gl_attr = video_subsystem.gl_attr();
+gl_attr.set_context_profile(sdl2::video::GLProfile::Core);
+gl_attr.set_context_version(4, 1);
+</code></pre>
+<p>unsafe {
+gl::Viewport(0, 0, 900, 700); // set viewport
+}</p>
+<pre><code>let gl_attr = video_subsystem.gl_attr();
+gl_attr.set_context_profile(sdl2::video::GLProfile::Core);
+gl_attr.set_context_version(4, 1);
+</code></pre>
+<p>image
+polygon
+shader</p>
+<p>script - lisp
+editor - clojure</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="sdl"><a class="header" href="#sdl">SDL</a></h1>
+<p>https://wiki.libsdl.org/FrontPage
+Simple DirectMedia Layer is a cross-platform development library designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware via OpenGL and Direct3D.</p>
+<p>https://github.com/Rust-SDL2/rust-sdl2</p>
+<p>Cargo.toml</p>
+<pre><code class="language-toml">[dependencies.sdl2]
+version = "0.31.0"
+features = ["bundled", "static-link"]
+</code></pre>
+<p>"Bundled" Feature
+Since 0.31, this crate supports a feature named "bundled" which downloads SDL2 from source, compiles it and links it automatically. While this should work for any architecture, you will need a C compiler (like gcc, clang, or MS's own compiler) to use this feature properly.</p>
+<pre><pre class="playground"><code class="language-rust">extern crate sdl2;
+
+fn main() {
+    let sdl = sdl2::init().unwrap();
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    let sdl = sdl2::init().unwrap();
+    let video_subsystem = sdl.video().unwrap();
+    let mut builder_window = video_subsystem.window("Game", 300, 300);
+    let builder_sdl = builder_window
+        .position_centered()
+        .resizable();
+    let window = builder_sdl.build().unwrap();
+
+    let mut event_pump = sdl.event_pump().unwrap();
+    'main: loop {
+        for event in event_pump.poll_iter() {
+            match event {
+                sdl2::event::Event::Quit {..} =&gt; break 'main,
+                _ =&gt; {},
+            }
+        }
+    }
+<span class="boring">}</span></code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE HTML>
+<html lang="ko" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>trait - study.rust</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- #region: Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-855BJNV9VD"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-855BJNV9VD');
+        </script>
+        <!-- #endregion: Google tag (gtag.js) -->
+        <meta name="description" content="study.rust">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">study.rust</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.rust" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.rust/edit/main/src/trait.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="trait"><a class="header" href="#trait">trait</a></h1>
+<ul>
+<li>다른 언어에서의 interface라고 보면됨</li>
+</ul>
+<h2 id="자동파생"><a class="header" href="#자동파생">자동파생</a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 내부 필드 x와 y가 전부 i32이고, i32는 이 모든 트레이트를 이미 구현하고 있기 때문에,
+// Point는 자동으로 Debug, Clone, PartialEq, Eq, Hash, Default를 구현
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Default)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="닷넷과-비교"><a class="header" href="#닷넷과-비교">닷넷과 비교</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>닷넷의</th><th>트레이트</th><th></th></tr></thead><tbody>
+<tr><td>ICloneable.Clone()</td><td><code>Clone</code></td><td></td></tr>
+<tr><td>ToString()</td><td><code>Display</code></td><td></td></tr>
+<tr><td>IEquatable<T></td><td><code>Eq</code></td><td><code>PartialEq</code>도 만족해야함</td></tr>
+<tr><td>IComparable<T></td><td><code>Ord</code></td><td><code>Eq</code> + <code>PartialOrd</code> 만족해야 함</td></tr>
+<tr><td>GetHashCode()</td><td><code>Hash</code></td><td></td></tr>
+<tr><td>IEnumerable</td><td><code>Iterator</code> ,<code>IntoIterator</code>, <code>FromIterator</code></td><td></td></tr>
+</tbody></table>
+</div>
+<h2 id="derivedebug"><a class="header" href="#derivedebug">#[derive(Debug)]</a></h2>
+<ul>
+<li>닷넷의 DebuggerDisplay 어트리뷰트와 비슷하지만 닷넷은 디버거 표시에만 나타낼 뿐이고, rust는 출력용.</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>{:?}</td><td>한 줄, 간결한 디버그 표현</td></tr>
+<tr><td>{:#?}</td><td>pretty 출력</td></tr>
+</tbody></table>
+</div>
+<h2 id="toowned"><a class="header" href="#toowned">ToOwned</a></h2>
+<ul>
+<li>빌린 값(&amp;T)의 소유된 owned 복사본을 만든다
+<ul>
+<li>Copy 타입이 아니면, 보통 새로운 소유 데이터를 만들기 때문에 힙 메모리 할당이 발생</li>
+</ul>
+</li>
+</ul>
+<p>let s1: String = "hello".to_owned();</p>
+<pre><code>"hello" (바이너리 상수, &amp;str)
+|
+|
+*  to_owned()
+[ h e l l o \0 ]   &lt;- 힙에 새로 복사됨
+|
+s1: String
+</code></pre>
+<h2 id="기타-trait"><a class="header" href="#기타-trait">기타 Trait</a></h2>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th><th></th><th></th></tr></thead><tbody>
+<tr><td><code>Default</code></td><td>기본값 생성</td><td><code>let v: Vec&lt;i32&gt; = Default::default();</code></td><td>여러 타입에 대해 <code>::default()</code> 제공</td></tr>
+<tr><td><code>Drop</code></td><td>소멸자 (scope 벗어날 때 커스텀 정리)</td><td><code>impl Drop for MyType { fn drop(&amp;mut self) { ... } }</code></td><td>리소스 정리용</td></tr>
+<tr><td><code>AsRef&lt;T&gt;</code></td><td>참조로 변환 (가벼운 뷰)</td><td><code>fn foo&lt;S: AsRef&lt;str&gt;&gt;(s: S)</code></td><td><code>&amp;String</code> → <code>&amp;str</code> 등</td></tr>
+<tr><td><code>AsMut&lt;T&gt;</code></td><td>가변 참조로 변환</td><td>비슷하게 <code>fn bar&lt;S: AsMut&lt;[u8]&gt;&gt;(s: &amp;mut S)</code></td><td></td></tr>
+<tr><td><code>Borrow&lt;T&gt;</code> / <code>BorrowMut&lt;T&gt;</code></td><td>키/뷰로서 빌려쓰기 (컬렉션 내부와 호환)</td><td><code>HashMap&lt;String, V&gt;</code>에 <code>&amp;str</code>로 접근 가능하게 해줌</td><td><code>AsRef</code>와 유사하지만 의미가 다름</td></tr>
+<tr><td><code>Send</code></td><td>스레드 간 안전한 이동 가능</td><td><code>std::thread::spawn</code>의 인자에 필요</td><td>컴파일러가 타입이 <code>Send</code>인지 추론</td></tr>
+<tr><td><code>Sync</code></td><td>여러 스레드에서 동시에 참조 가능</td><td><code>&amp;T</code>가 스레드 안전하면 <code>T: Sync</code></td><td></td></tr>
+<tr><td><code>Sized</code></td><td>컴파일 타임 크기 고정</td><td>대부분 타입에 자동</td><td><code>?Sized</code>로 역전 가능</td></tr>
+<tr><td><code>'static</code> (라이프타임 제한)</td><td>프로그램 전체 생존 가능 참조</td><td><code>let s: &amp;'static str = "hello";</code></td><td>트레이트는 아니지만 제약으로 자주 등장</td></tr>
+</tbody></table>
+</div>
+<h2 id="into-트레잇"><a class="header" href="#into-트레잇">Into<T> 트레잇</a></h2>
+<ul>
+<li>Into<U>는 From<T> for U가 있으면 자동 구현됨</li>
+<li>다른 타입으로 바꾸고 소유권도 넘기는데 쓰임.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="install.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="allocator.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="install.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="allocator.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>
