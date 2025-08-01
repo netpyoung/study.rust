@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>ref - study.rust</title>
+        <title>문자열 - study.rust</title>
 
 
         <!-- Custom HTML head -->
@@ -156,7 +156,7 @@
                         <a href="https://github.com/netpyoung/study.rust" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/netpyoung/study.rust/edit/main/src/reference.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                        <a href="https://github.com/netpyoung/study.rust/edit/main/src/string.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -190,58 +190,108 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="ref"><a class="header" href="#ref">ref</a></h1>
+                        <h1 id="문자열"><a class="header" href="#문자열">문자열</a></h1>
 <ul>
-<li>
-<p><a href="https://rust-exercises.com/100-exercises/">100-exercises-to-learn-rust</a></p>
+<li><a href="https://www.youtube.com/watch?v=CpvzeyzgQdw">All Rust string types explained</a></li>
+<li><code>str</code>
 <ul>
-<li><a href="https://github.com/mainmatter/100-exercises-to-learn-rust">https://github.com/mainmatter/100-exercises-to-learn-rust</a></li>
-</ul>
-</li>
-<li>
-<p>macro</p>
-<ul>
-<li><a href="https://lukaswirth.dev/tlborm/">The Little Book of Rust Macros</a></li>
-<li><a href="https://github.com/dtolnay/proc-macro-workshop">Rust Latam: procedural macros workshop</a></li>
+<li>dynamically sized type (DST, 크기가 컴파일 타임에 결정되지 않는 타입)</li>
+<li>직접 변수로 쓸 수 없고, 항상 포인터/참조(&amp;, Box, Rc 등) 뒤에 붙어야 한다.</li>
 </ul>
 </li>
 </ul>
-<p>책
-Refactoring to Rust by Lily Mara, Joel Holmes
-Rust in Action by Tim McNamara</p>
-<p>https://www.packtpub.com/application-development/rust-essentials</p>
-<p>https://lborb.github.io/book/official.html</p>
-<p>pngme_book
-https://picklenerd.github.io/pngme_book/
-https://github.com/picklenerd/pngme_book</p>
-<p>Creative Projects for Rust Programmers
-https://www.packtpub.com/product/creative-projects-for-rust-programmers/9781789346220
-https://github.com/packtpublishing/creative-projects-for-rust-programmers</p>
-<p>A Guide to Porting C/C++ to Rust
-https://locka99.gitbooks.io/a-guide-to-porting-c-to-rust/
-https://github.com/locka99/cpp-to-rust-book</p>
-<p>Zero To Production In Rust
-https://www.zero2prod.com/</p>
-<p>Learning Rust With Entirely Too Many Linked Lists
-https://rust-unofficial.github.io/too-many-lists/first.html</p>
-<p>Roguelike Tutorial - In Rust
-https://bfnightly.bracketproductions.com/</p>
-<p>https://rftgu.rs/</p>
-<h2 id="library"><a class="header" href="#library">library</a></h2>
-<p>https://github.com/dtolnay/anyhow</p>
-<p>https://rust-cli.github.io/book/crates/index.html</p>
-<p>https://rust-lang.github.io/rust-bindgen/</p>
-<p>http://nercury.github.io/rust/opengl/tutorial/2018/02/08/opengl-in-rust-from-scratch-00-setup.html</p>
+<p>문자열 조작할때 String
+immutable 문자열은 Box
+공유를 원하면 Rc</p>
+<div class="table-wrapper"><table><thead><tr><th>타입</th><th>소유권</th><th>인코딩/내용</th><th>변경 가능성</th><th>용도 / 설명</th></tr></thead><tbody>
+<tr><td><code>&amp;str</code></td><td>불소유 (borrow)</td><td>UTF-8</td><td>불변</td><td>고정된 문자열 슬라이스. 컴파일타임 리터럴이나 <code>String</code>의 일부를 빌려 쓸 때.</td></tr>
+<tr><td><code>String</code></td><td>소유</td><td>UTF-8</td><td>가변</td><td>동적으로 생성/조작 가능한 문자열 버퍼.</td></tr>
+<tr><td><code>Vec&lt;u8&gt;</code></td><td>소유</td><td>바이트 시퀀스</td><td>가변</td><td>비 UTF-8 또는 바이너리 문자열 처리, 인코딩 검증 전/후 버퍼.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>타입</th><th>소유권</th><th>인코딩/내용</th><th>변경 가능성</th><th>용도 / 설명</th></tr></thead><tbody>
+<tr><td><code>Box&lt;str&gt;</code></td><td>소유 (Owned)</td><td>UTF-8</td><td>불변</td><td>힙에 고정된 문자열 슬라이스. <code>String</code>에서 크기를 줄이고 싶을 때, 변경 불가한 소유 문자열을 효율적으로 저장.</td></tr>
+<tr><td><code>Rc&lt;str&gt;</code></td><td>공유 소유 (공유 참조 카운팅)</td><td>UTF-8</td><td>불변</td><td>여러 곳에서 읽기 전용 문자열을 복사 없이 공유할 때. 참조 카운트로 복제 비용을 줄임.</td></tr>
+<tr><td><code>Cow&lt;str&gt;</code></td><td>상황에 따라</td><td>UTF-8</td><td>상황에 따라</td><td>필요 시 복사(<code>Owned</code>)하거나 빌려쓰기(<code>Borrowed</code>)로 유연한 API에 사용.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>타입</th><th>소유권</th><th>인코딩/내용</th><th>변경 가능성</th><th>용도 / 설명</th></tr></thead><tbody>
+<tr><td><code>CStr</code></td><td>불소유</td><td>C 문자열 (널 종료)</td><td>불변</td><td>FFI로부터 받은 C 문자열 참조.</td></tr>
+<tr><td><code>CString</code></td><td>소유</td><td>C 문자열 (널 종료)</td><td>가변 (생성 후엔 불변)</td><td>Rust → C로 문자열 넘길 때, 내부에 널 바이트 없어야 함.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>타입</th><th>소유권</th><th>인코딩/내용</th><th>변경 가능성</th><th>용도 / 설명</th></tr></thead><tbody>
+<tr><td><code>OsStr</code></td><td>불소유</td><td>플랫폼네이티브 (Windows: WTF-8/UTF-16, Unix: 바이트 시퀀스)</td><td>불변</td><td>운영체제 경로/명령줄 등, 플랫폼 문자열.</td></tr>
+<tr><td><code>OsString</code></td><td>소유</td><td>플랫폼네이티브</td><td>가변</td><td><code>OsStr</code>의 소유 버전, 경로 등 구성할 때.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>기타</th><th></th></tr></thead><tbody>
+<tr><td>&amp;[u8; N]</td><td>고정 크기 바이트 배열의 참조. 바이너리/저수준 데이터.</td></tr>
+<tr><td>r#"..."#</td><td>이스케이프 시퀀스를 처리하지 않는 원시 문자열.</td></tr>
+<tr><td>b"..."</td><td>바이트 문자열 리터럴 (&amp;[u8]).</td></tr>
+<tr><td>br#"..."#</td><td>이스케이프 없이 바이트 원시 문자열.</td></tr>
+<tr><td>Path</td><td>파일 시스템 경로를 다루는 타입 (&amp;Path 또는 PathBuf).</td></tr>
+</tbody></table>
+</div>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let s: &amp;str = "Hello"; // 문자열 리터럴은 &amp;'static str
+
+let mut s: String = String::from("Hello");
+s.push_str(", world!");
+
+use std::borrow::Cow;
+let borrowed: Cow&lt;str&gt; = Cow::Borrowed("hello");
+let owned: Cow&lt;str&gt; = Cow::Owned("world".to_string());
+
+let bytes: Vec&lt;u8&gt; = b"hello".to_vec();
+let s: String = String::from_utf8(bytes).unwrap();
+
+use std::ffi::{CStr, CString};
+let c_string: CString = CString::new("hello").unwrap();
+let ptr: *const std::os::raw::c_char = c_string.as_ptr(); // *const c_char
+unsafe {
+    let c_str: &amp;CStr = CStr::from_ptr(ptr);
+    let rust_str: &amp;str = c_str.to_str().unwrap();
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let owned: Box&lt;str&gt; = "Hello, Box&lt;str&gt;!".to_owned().into_boxed_str();
+let shared: Rc&lt;str&gt; = Rc::from("Hello, Rc&lt;str&gt;!");
+
+let p: &amp;Path = Path::new("some/folder/file.txt");
+
+let bs: &amp;[u8] = b"hello";
+let data: &amp;[u8; 4] = b"\x01\x02\x03\x04";
+let slice: &amp;[u8] = data;
+
+let s: &amp;str = r#"He said: "Hello, \n world!""#;
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::borrow::Cow;
+
+let mut cow: Cow&lt;str&gt; = Cow::Borrowed("hello");
+let ptr_before: *const u8 = cow.as_ptr();
+
+let s: &amp;mut String = cow.to_mut();
+s.push_str(" world!");
+let ptr_after: *const u8 = cow.as_ptr();
+
+// to_mut()하면서 내부 데이터를 복사해서 힙에 String을 만듬.
+// 결과적으로 ptr_before와 ptr_after 주소가 다라짐.
+
+// Cow (Clone on Write)는 처음에는 Borrowed(빌림) 상태로 존재하다가,
+// Owned 상태로 변할 때 내부 데이터를 복사하여 소유권을 가지는 새로운 값으로 전환하는 타입.
+// Owned로 전환하는 함수는 to_mut() 이나 into_owned() .
+<span class="boring">}</span></code></pre></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="allocator.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="trait.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="build.rs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="smartpointer.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -251,11 +301,11 @@ https://bfnightly.bracketproductions.com/</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="allocator.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="trait.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="build.rs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="smartpointer.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

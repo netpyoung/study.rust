@@ -208,6 +208,7 @@ struct Point {
 <span class="boring">}</span></code></pre></pre>
 <h2 id="닷넷과-비교"><a class="header" href="#닷넷과-비교">닷넷과 비교</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>닷넷의</th><th>트레이트</th><th></th></tr></thead><tbody>
+<tr><td>IDisposable.Dispose()</td><td><code>Drop</code></td><td>소멸자 (scope 벗어날 때 커스텀 정리)</td></tr>
 <tr><td>ICloneable.Clone()</td><td><code>Clone</code></td><td></td></tr>
 <tr><td>ToString()</td><td><code>Display</code></td><td></td></tr>
 <tr><td>IEquatable<T></td><td><code>Eq</code></td><td><code>PartialEq</code>도 만족해야함</td></tr>
@@ -245,7 +246,6 @@ s1: String
 <h2 id="기타-trait"><a class="header" href="#기타-trait">기타 Trait</a></h2>
 <div class="table-wrapper"><table><thead><tr><th></th><th></th><th></th><th></th></tr></thead><tbody>
 <tr><td><code>Default</code></td><td>기본값 생성</td><td><code>let v: Vec&lt;i32&gt; = Default::default();</code></td><td>여러 타입에 대해 <code>::default()</code> 제공</td></tr>
-<tr><td><code>Drop</code></td><td>소멸자 (scope 벗어날 때 커스텀 정리)</td><td><code>impl Drop for MyType { fn drop(&amp;mut self) { ... } }</code></td><td>리소스 정리용</td></tr>
 <tr><td><code>AsRef&lt;T&gt;</code></td><td>참조로 변환 (가벼운 뷰)</td><td><code>fn foo&lt;S: AsRef&lt;str&gt;&gt;(s: S)</code></td><td><code>&amp;String</code> → <code>&amp;str</code> 등</td></tr>
 <tr><td><code>AsMut&lt;T&gt;</code></td><td>가변 참조로 변환</td><td>비슷하게 <code>fn bar&lt;S: AsMut&lt;[u8]&gt;&gt;(s: &amp;mut S)</code></td><td></td></tr>
 <tr><td><code>Borrow&lt;T&gt;</code> / <code>BorrowMut&lt;T&gt;</code></td><td>키/뷰로서 빌려쓰기 (컬렉션 내부와 호환)</td><td><code>HashMap&lt;String, V&gt;</code>에 <code>&amp;str</code>로 접근 가능하게 해줌</td><td><code>AsRef</code>와 유사하지만 의미가 다름</td></tr>
@@ -265,11 +265,11 @@ s1: String
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="install.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="cargo.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="allocator.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="string.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -279,11 +279,11 @@ s1: String
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="install.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="cargo.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="allocator.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="string.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

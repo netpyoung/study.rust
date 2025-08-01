@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>ref - study.rust</title>
+        <title>cargo - study.rust</title>
 
 
         <!-- Custom HTML head -->
@@ -156,7 +156,7 @@
                         <a href="https://github.com/netpyoung/study.rust" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/netpyoung/study.rust/edit/main/src/reference.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                        <a href="https://github.com/netpyoung/study.rust/edit/main/src/cargo.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -190,58 +190,39 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="ref"><a class="header" href="#ref">ref</a></h1>
-<ul>
-<li>
-<p><a href="https://rust-exercises.com/100-exercises/">100-exercises-to-learn-rust</a></p>
-<ul>
-<li><a href="https://github.com/mainmatter/100-exercises-to-learn-rust">https://github.com/mainmatter/100-exercises-to-learn-rust</a></li>
-</ul>
-</li>
-<li>
-<p>macro</p>
-<ul>
-<li><a href="https://lukaswirth.dev/tlborm/">The Little Book of Rust Macros</a></li>
-<li><a href="https://github.com/dtolnay/proc-macro-workshop">Rust Latam: procedural macros workshop</a></li>
-</ul>
-</li>
-</ul>
-<p>책
-Refactoring to Rust by Lily Mara, Joel Holmes
-Rust in Action by Tim McNamara</p>
-<p>https://www.packtpub.com/application-development/rust-essentials</p>
-<p>https://lborb.github.io/book/official.html</p>
-<p>pngme_book
-https://picklenerd.github.io/pngme_book/
-https://github.com/picklenerd/pngme_book</p>
-<p>Creative Projects for Rust Programmers
-https://www.packtpub.com/product/creative-projects-for-rust-programmers/9781789346220
-https://github.com/packtpublishing/creative-projects-for-rust-programmers</p>
-<p>A Guide to Porting C/C++ to Rust
-https://locka99.gitbooks.io/a-guide-to-porting-c-to-rust/
-https://github.com/locka99/cpp-to-rust-book</p>
-<p>Zero To Production In Rust
-https://www.zero2prod.com/</p>
-<p>Learning Rust With Entirely Too Many Linked Lists
-https://rust-unofficial.github.io/too-many-lists/first.html</p>
-<p>Roguelike Tutorial - In Rust
-https://bfnightly.bracketproductions.com/</p>
-<p>https://rftgu.rs/</p>
-<h2 id="library"><a class="header" href="#library">library</a></h2>
-<p>https://github.com/dtolnay/anyhow</p>
-<p>https://rust-cli.github.io/book/crates/index.html</p>
-<p>https://rust-lang.github.io/rust-bindgen/</p>
-<p>http://nercury.github.io/rust/opengl/tutorial/2018/02/08/opengl-in-rust-from-scratch-00-setup.html</p>
+                        <h1 id="cargo"><a class="header" href="#cargo">Cargo</a></h1>
+<p>Cargo - 화물 - Cargo is a tool that allows Rust projects to declare their various dependencies, and ensure that you'll always get a repeatable build.</p>
+<p>Crate - 상자 - A crate is synonymous with a ‘library’ or ‘package’ in other languages.</p>
+<p>module - Modules allow you to partition your code within the crate itself.</p>
+<pre><code>$ cargo new hello_world --bin
+$ cd hello_world
+$ tree .
+.
+├── Cargo.toml
+└── src
+    └── main.rs
+</code></pre>
+<p><code>Cargo.toml</code> - manifest. it contains all of the metadata that Cargo needs to compile your project. - http://doc.crates.io/manifest</p>
+<p><code>Cargo.lock</code> It contains information about our dependencies
+http://doc.crates.io/guide.html</p>
+<h2 id="httpdoccratesioguidehtmlcargotoml-vs-cargolock"><a class="header" href="#httpdoccratesioguidehtmlcargotoml-vs-cargolock">http://doc.crates.io/guide.html#cargotoml-vs-cargolock</a></h2>
+<pre><code>Cargo.toml is about describing your dependencies in a broad sense, and is written by you.
+Cargo.lock contains exact information about your dependencies, and is maintained by Cargo.
+If you're building a library, put Cargo.lock in your .gitignore.
+If you're building an executable, check Cargo.lock into git.
+</code></pre>
+<p>project layout
+http://doc.crates.io/manifest.html#the-project-layout</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="allocator.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="install.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="build.rs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="trait.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -251,11 +232,11 @@ https://bfnightly.bracketproductions.com/</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="allocator.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="install.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="build.rs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="trait.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

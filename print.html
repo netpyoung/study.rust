@@ -217,6 +217,29 @@ rustup default stable-msvc</p>
 <p>rustup component add rust-src</p>
 <p>rustup toolchain add nightly</p>
 <p>https://visualstudio.microsoft.com/vs/community/</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cargo"><a class="header" href="#cargo">Cargo</a></h1>
+<p>Cargo - 화물 - Cargo is a tool that allows Rust projects to declare their various dependencies, and ensure that you'll always get a repeatable build.</p>
+<p>Crate - 상자 - A crate is synonymous with a ‘library’ or ‘package’ in other languages.</p>
+<p>module - Modules allow you to partition your code within the crate itself.</p>
+<pre><code>$ cargo new hello_world --bin
+$ cd hello_world
+$ tree .
+.
+├── Cargo.toml
+└── src
+    └── main.rs
+</code></pre>
+<p><code>Cargo.toml</code> - manifest. it contains all of the metadata that Cargo needs to compile your project. - http://doc.crates.io/manifest</p>
+<p><code>Cargo.lock</code> It contains information about our dependencies
+http://doc.crates.io/guide.html</p>
+<h2 id="httpdoccratesioguidehtmlcargotoml-vs-cargolock"><a class="header" href="#httpdoccratesioguidehtmlcargotoml-vs-cargolock">http://doc.crates.io/guide.html#cargotoml-vs-cargolock</a></h2>
+<pre><code>Cargo.toml is about describing your dependencies in a broad sense, and is written by you.
+Cargo.lock contains exact information about your dependencies, and is maintained by Cargo.
+If you're building a library, put Cargo.lock in your .gitignore.
+If you're building an executable, check Cargo.lock into git.
+</code></pre>
+<p>project layout
+http://doc.crates.io/manifest.html#the-project-layout</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="trait"><a class="header" href="#trait">trait</a></h1>
 <ul>
 <li>다른 언어에서의 interface라고 보면됨</li>
@@ -235,6 +258,7 @@ struct Point {
 <span class="boring">}</span></code></pre></pre>
 <h2 id="닷넷과-비교"><a class="header" href="#닷넷과-비교">닷넷과 비교</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>닷넷의</th><th>트레이트</th><th></th></tr></thead><tbody>
+<tr><td>IDisposable.Dispose()</td><td><code>Drop</code></td><td>소멸자 (scope 벗어날 때 커스텀 정리)</td></tr>
 <tr><td>ICloneable.Clone()</td><td><code>Clone</code></td><td></td></tr>
 <tr><td>ToString()</td><td><code>Display</code></td><td></td></tr>
 <tr><td>IEquatable<T></td><td><code>Eq</code></td><td><code>PartialEq</code>도 만족해야함</td></tr>
@@ -272,7 +296,6 @@ s1: String
 <h2 id="기타-trait"><a class="header" href="#기타-trait">기타 Trait</a></h2>
 <div class="table-wrapper"><table><thead><tr><th></th><th></th><th></th><th></th></tr></thead><tbody>
 <tr><td><code>Default</code></td><td>기본값 생성</td><td><code>let v: Vec&lt;i32&gt; = Default::default();</code></td><td>여러 타입에 대해 <code>::default()</code> 제공</td></tr>
-<tr><td><code>Drop</code></td><td>소멸자 (scope 벗어날 때 커스텀 정리)</td><td><code>impl Drop for MyType { fn drop(&amp;mut self) { ... } }</code></td><td>리소스 정리용</td></tr>
 <tr><td><code>AsRef&lt;T&gt;</code></td><td>참조로 변환 (가벼운 뷰)</td><td><code>fn foo&lt;S: AsRef&lt;str&gt;&gt;(s: S)</code></td><td><code>&amp;String</code> → <code>&amp;str</code> 등</td></tr>
 <tr><td><code>AsMut&lt;T&gt;</code></td><td>가변 참조로 변환</td><td>비슷하게 <code>fn bar&lt;S: AsMut&lt;[u8]&gt;&gt;(s: &amp;mut S)</code></td><td></td></tr>
 <tr><td><code>Borrow&lt;T&gt;</code> / <code>BorrowMut&lt;T&gt;</code></td><td>키/뷰로서 빌려쓰기 (컬렉션 내부와 호환)</td><td><code>HashMap&lt;String, V&gt;</code>에 <code>&amp;str</code>로 접근 가능하게 해줌</td><td><code>AsRef</code>와 유사하지만 의미가 다름</td></tr>
@@ -287,10 +310,98 @@ s1: String
 <li>Into<U>는 From<T> for U가 있으면 자동 구현됨</li>
 <li>다른 타입으로 바꾸고 소유권도 넘기는데 쓰임.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="allocator"><a class="header" href="#allocator">allocator</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="문자열"><a class="header" href="#문자열">문자열</a></h1>
 <ul>
-<li><a href="https://doc.rust-lang.org/std/alloc/trait.Allocator.html">https://doc.rust-lang.org/std/alloc/trait.Allocator.html</a></li>
+<li><a href="https://www.youtube.com/watch?v=CpvzeyzgQdw">All Rust string types explained</a></li>
+<li><code>str</code>
+<ul>
+<li>dynamically sized type (DST, 크기가 컴파일 타임에 결정되지 않는 타입)</li>
+<li>직접 변수로 쓸 수 없고, 항상 포인터/참조(&amp;, Box, Rc 등) 뒤에 붙어야 한다.</li>
 </ul>
+</li>
+</ul>
+<p>문자열 조작할때 String
+immutable 문자열은 Box
+공유를 원하면 Rc</p>
+<div class="table-wrapper"><table><thead><tr><th>타입</th><th>소유권</th><th>인코딩/내용</th><th>변경 가능성</th><th>용도 / 설명</th></tr></thead><tbody>
+<tr><td><code>&amp;str</code></td><td>불소유 (borrow)</td><td>UTF-8</td><td>불변</td><td>고정된 문자열 슬라이스. 컴파일타임 리터럴이나 <code>String</code>의 일부를 빌려 쓸 때.</td></tr>
+<tr><td><code>String</code></td><td>소유</td><td>UTF-8</td><td>가변</td><td>동적으로 생성/조작 가능한 문자열 버퍼.</td></tr>
+<tr><td><code>Vec&lt;u8&gt;</code></td><td>소유</td><td>바이트 시퀀스</td><td>가변</td><td>비 UTF-8 또는 바이너리 문자열 처리, 인코딩 검증 전/후 버퍼.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>타입</th><th>소유권</th><th>인코딩/내용</th><th>변경 가능성</th><th>용도 / 설명</th></tr></thead><tbody>
+<tr><td><code>Box&lt;str&gt;</code></td><td>소유 (Owned)</td><td>UTF-8</td><td>불변</td><td>힙에 고정된 문자열 슬라이스. <code>String</code>에서 크기를 줄이고 싶을 때, 변경 불가한 소유 문자열을 효율적으로 저장.</td></tr>
+<tr><td><code>Rc&lt;str&gt;</code></td><td>공유 소유 (공유 참조 카운팅)</td><td>UTF-8</td><td>불변</td><td>여러 곳에서 읽기 전용 문자열을 복사 없이 공유할 때. 참조 카운트로 복제 비용을 줄임.</td></tr>
+<tr><td><code>Cow&lt;str&gt;</code></td><td>상황에 따라</td><td>UTF-8</td><td>상황에 따라</td><td>필요 시 복사(<code>Owned</code>)하거나 빌려쓰기(<code>Borrowed</code>)로 유연한 API에 사용.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>타입</th><th>소유권</th><th>인코딩/내용</th><th>변경 가능성</th><th>용도 / 설명</th></tr></thead><tbody>
+<tr><td><code>CStr</code></td><td>불소유</td><td>C 문자열 (널 종료)</td><td>불변</td><td>FFI로부터 받은 C 문자열 참조.</td></tr>
+<tr><td><code>CString</code></td><td>소유</td><td>C 문자열 (널 종료)</td><td>가변 (생성 후엔 불변)</td><td>Rust → C로 문자열 넘길 때, 내부에 널 바이트 없어야 함.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>타입</th><th>소유권</th><th>인코딩/내용</th><th>변경 가능성</th><th>용도 / 설명</th></tr></thead><tbody>
+<tr><td><code>OsStr</code></td><td>불소유</td><td>플랫폼네이티브 (Windows: WTF-8/UTF-16, Unix: 바이트 시퀀스)</td><td>불변</td><td>운영체제 경로/명령줄 등, 플랫폼 문자열.</td></tr>
+<tr><td><code>OsString</code></td><td>소유</td><td>플랫폼네이티브</td><td>가변</td><td><code>OsStr</code>의 소유 버전, 경로 등 구성할 때.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>기타</th><th></th></tr></thead><tbody>
+<tr><td>&amp;[u8; N]</td><td>고정 크기 바이트 배열의 참조. 바이너리/저수준 데이터.</td></tr>
+<tr><td>r#"..."#</td><td>이스케이프 시퀀스를 처리하지 않는 원시 문자열.</td></tr>
+<tr><td>b"..."</td><td>바이트 문자열 리터럴 (&amp;[u8]).</td></tr>
+<tr><td>br#"..."#</td><td>이스케이프 없이 바이트 원시 문자열.</td></tr>
+<tr><td>Path</td><td>파일 시스템 경로를 다루는 타입 (&amp;Path 또는 PathBuf).</td></tr>
+</tbody></table>
+</div>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let s: &amp;str = "Hello"; // 문자열 리터럴은 &amp;'static str
+
+let mut s: String = String::from("Hello");
+s.push_str(", world!");
+
+use std::borrow::Cow;
+let borrowed: Cow&lt;str&gt; = Cow::Borrowed("hello");
+let owned: Cow&lt;str&gt; = Cow::Owned("world".to_string());
+
+let bytes: Vec&lt;u8&gt; = b"hello".to_vec();
+let s: String = String::from_utf8(bytes).unwrap();
+
+use std::ffi::{CStr, CString};
+let c_string: CString = CString::new("hello").unwrap();
+let ptr: *const std::os::raw::c_char = c_string.as_ptr(); // *const c_char
+unsafe {
+    let c_str: &amp;CStr = CStr::from_ptr(ptr);
+    let rust_str: &amp;str = c_str.to_str().unwrap();
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let owned: Box&lt;str&gt; = "Hello, Box&lt;str&gt;!".to_owned().into_boxed_str();
+let shared: Rc&lt;str&gt; = Rc::from("Hello, Rc&lt;str&gt;!");
+
+let p: &amp;Path = Path::new("some/folder/file.txt");
+
+let bs: &amp;[u8] = b"hello";
+let data: &amp;[u8; 4] = b"\x01\x02\x03\x04";
+let slice: &amp;[u8] = data;
+
+let s: &amp;str = r#"He said: "Hello, \n world!""#;
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::borrow::Cow;
+
+let mut cow: Cow&lt;str&gt; = Cow::Borrowed("hello");
+let ptr_before: *const u8 = cow.as_ptr();
+
+let s: &amp;mut String = cow.to_mut();
+s.push_str(" world!");
+let ptr_after: *const u8 = cow.as_ptr();
+
+// to_mut()하면서 내부 데이터를 복사해서 힙에 String을 만듬.
+// 결과적으로 ptr_before와 ptr_after 주소가 다라짐.
+
+// Cow (Clone on Write)는 처음에는 Borrowed(빌림) 상태로 존재하다가,
+// Owned 상태로 변할 때 내부 데이터를 복사하여 소유권을 가지는 새로운 값으로 전환하는 타입.
+// Owned로 전환하는 함수는 to_mut() 이나 into_owned() .
+<span class="boring">}</span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="smart-pointer"><a class="header" href="#smart-pointer">smart pointer</a></h1>
 <div class="table-wrapper"><table><thead><tr><th>종류</th><th>설명</th><th>참조 카운트</th><th>멀티스레드 안전성</th><th>내부 변경 허용 (<code>!mut self</code>)</th><th>주요 용도 / 특성</th></tr></thead><tbody>
 <tr><td><code>Box&lt;T&gt;</code></td><td>힙에 저장된 단일 소유 값</td><td>❌ 없음</td><td>✅ (Send/Sync 조건 시)</td><td>❌ 불가</td><td>트리, 재귀 구조, 큰 데이터</td></tr>
@@ -367,10 +478,30 @@ panic = 'unwind'
 incremental = false
 codegen-units = 1      # default: 16
 rpath = false</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="allocator"><a class="header" href="#allocator">allocator</a></h1>
+<ul>
+<li><a href="https://doc.rust-lang.org/std/alloc/trait.Allocator.html">https://doc.rust-lang.org/std/alloc/trait.Allocator.html</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ref"><a class="header" href="#ref">ref</a></h1>
+<ul>
+<li>
+<p><a href="https://rust-exercises.com/100-exercises/">100-exercises-to-learn-rust</a></p>
+<ul>
+<li><a href="https://github.com/mainmatter/100-exercises-to-learn-rust">https://github.com/mainmatter/100-exercises-to-learn-rust</a></li>
+</ul>
+</li>
+<li>
+<p>macro</p>
+<ul>
+<li><a href="https://lukaswirth.dev/tlborm/">The Little Book of Rust Macros</a></li>
+<li><a href="https://github.com/dtolnay/proc-macro-workshop">Rust Latam: procedural macros workshop</a></li>
+</ul>
+</li>
+</ul>
 <p>책
 Refactoring to Rust by Lily Mara, Joel Holmes
 Rust in Action by Tim McNamara</p>
+<p>https://www.packtpub.com/application-development/rust-essentials</p>
 <p>https://lborb.github.io/book/official.html</p>
 <p>pngme_book
 https://picklenerd.github.io/pngme_book/
@@ -393,6 +524,10 @@ https://bfnightly.bracketproductions.com/</p>
 <p>https://rust-cli.github.io/book/crates/index.html</p>
 <p>https://rust-lang.github.io/rust-bindgen/</p>
 <p>http://nercury.github.io/rust/opengl/tutorial/2018/02/08/opengl-in-rust-from-scratch-00-setup.html</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="buildrs"><a class="header" href="#buildrs">build.rs</a></h1>
+<ul>
+<li><a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">https://doc.rust-lang.org/cargo/reference/build-scripts.html</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="opengl"><a class="header" href="#opengl">OpenGL</a></h1>
 <p>gl = "0.10.0"</p>
 <pre><code>let builder_sdl = builder_window
