@@ -17,14 +17,15 @@ struct Point {
 
 ## 닷넷과 비교
 
-| 닷넷의             | 트레이트                                   |                                 |
-| ------------------ | ------------------------------------------ | ------------------------------- |
-| ICloneable.Clone() | `Clone`                                    |                                 |
-| ToString()         | `Display`                                  |                                 |
-| IEquatable<T>      | `Eq`                                       | `PartialEq`도 만족해야함        |
-| IComparable<T>     | `Ord`                                      | `Eq` + `PartialOrd` 만족해야 함 |
-| GetHashCode()      | `Hash`                                     |                                 |
-| IEnumerable        | `Iterator` ,`IntoIterator`, `FromIterator` |                                 |
+| 닷넷의                | 트레이트                                   |                                      |
+| --------------------- | ------------------------------------------ | ------------------------------------ |
+| IDisposable.Dispose() | `Drop`                                     | 소멸자 (scope 벗어날 때 커스텀 정리) |
+| ICloneable.Clone()    | `Clone`                                    |                                      |
+| ToString()            | `Display`                                  |                                      |
+| IEquatable<T>         | `Eq`                                       | `PartialEq`도 만족해야함             |
+| IComparable<T>        | `Ord`                                      | `Eq` + `PartialOrd` 만족해야 함      |
+| GetHashCode()         | `Hash`                                     |                                      |
+| IEnumerable           | `Iterator` ,`IntoIterator`, `FromIterator` |                                      |
 
 ## #[derive(Debug)]
 
@@ -53,17 +54,16 @@ s1: String
 
 ## 기타 Trait
 
-|                              |                                         |                                                       |                                        |
-| ---------------------------- | --------------------------------------- | ----------------------------------------------------- | -------------------------------------- |
-| `Default`                    | 기본값 생성                             | `let v: Vec<i32> = Default::default();`               | 여러 타입에 대해 `::default()` 제공    |
-| `Drop`                       | 소멸자 (scope 벗어날 때 커스텀 정리)    | `impl Drop for MyType { fn drop(&mut self) { ... } }` | 리소스 정리용                          |
-| `AsRef<T>`                   | 참조로 변환 (가벼운 뷰)                 | `fn foo<S: AsRef<str>>(s: S)`                         | `&String` → `&str` 등                  |
-| `AsMut<T>`                   | 가변 참조로 변환                        | 비슷하게 `fn bar<S: AsMut<[u8]>>(s: &mut S)`          |                                        |
-| `Borrow<T>` / `BorrowMut<T>` | 키/뷰로서 빌려쓰기 (컬렉션 내부와 호환) | `HashMap<String, V>`에 `&str`로 접근 가능하게 해줌    | `AsRef`와 유사하지만 의미가 다름       |
-| `Send`                       | 스레드 간 안전한 이동 가능              | `std::thread::spawn`의 인자에 필요                    | 컴파일러가 타입이 `Send`인지 추론      |
-| `Sync`                       | 여러 스레드에서 동시에 참조 가능        | `&T`가 스레드 안전하면 `T: Sync`                      |                                        |
-| `Sized`                      | 컴파일 타임 크기 고정                   | 대부분 타입에 자동                                    | `?Sized`로 역전 가능                   |
-| `'static` (라이프타임 제한)  | 프로그램 전체 생존 가능 참조            | `let s: &'static str = "hello";`                      | 트레이트는 아니지만 제약으로 자주 등장 |
+|                              |                                         |                                                    |                                        |
+| ---------------------------- | --------------------------------------- | -------------------------------------------------- | -------------------------------------- |
+| `Default`                    | 기본값 생성                             | `let v: Vec<i32> = Default::default();`            | 여러 타입에 대해 `::default()` 제공    |
+| `AsRef<T>`                   | 참조로 변환 (가벼운 뷰)                 | `fn foo<S: AsRef<str>>(s: S)`                      | `&String` → `&str` 등                  |
+| `AsMut<T>`                   | 가변 참조로 변환                        | 비슷하게 `fn bar<S: AsMut<[u8]>>(s: &mut S)`       |                                        |
+| `Borrow<T>` / `BorrowMut<T>` | 키/뷰로서 빌려쓰기 (컬렉션 내부와 호환) | `HashMap<String, V>`에 `&str`로 접근 가능하게 해줌 | `AsRef`와 유사하지만 의미가 다름       |
+| `Send`                       | 스레드 간 안전한 이동 가능              | `std::thread::spawn`의 인자에 필요                 | 컴파일러가 타입이 `Send`인지 추론      |
+| `Sync`                       | 여러 스레드에서 동시에 참조 가능        | `&T`가 스레드 안전하면 `T: Sync`                   |                                        |
+| `Sized`                      | 컴파일 타임 크기 고정                   | 대부분 타입에 자동                                 | `?Sized`로 역전 가능                   |
+| `'static` (라이프타임 제한)  | 프로그램 전체 생존 가능 참조            | `let s: &'static str = "hello";`                   | 트레이트는 아니지만 제약으로 자주 등장 |
 
 
 ## Into<T> 트레잇

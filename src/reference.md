@@ -1,8 +1,21 @@
 # ref
 
+
+- [100-exercises-to-learn-rust](https://rust-exercises.com/100-exercises/)
+  - <https://github.com/mainmatter/100-exercises-to-learn-rust>
+
+- macro
+  - [The Little Book of Rust Macros](https://lukaswirth.dev/tlborm/)
+  - [Rust Latam: procedural macros workshop](https://github.com/dtolnay/proc-macro-workshop)
+
+
+
 책
 Refactoring to Rust by Lily Mara, Joel Holmes
 Rust in Action by Tim McNamara
+
+https://www.packtpub.com/application-development/rust-essentials
+
 
 https://lborb.github.io/book/official.html
 
